@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#eff8ed">
+    <meta name="description" content="Grow your knowledge, one eco fact and one little tree at a time.">
+    <title>Ecosquad Eco Facts Garden</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #173b32;
+        --muted: #5d746b;
+        --green: #24734d;
+        --green-dark: #18553d;
+        --mint: #e9f4e6;
+        --paper: #fffefa;
+        --blue: #d8eef0;
+        --shadow: 0 18px 48px rgb(31 75 54 / 10%);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse at 50% 0%, #d9f0ec 0, transparent 44rem),
+          #f5f8ef;
+        font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button { font: inherit; }
+
+      .page-shell {
+        width: min(1080px, calc(100% - 40px));
+        margin-inline: auto;
+        padding: 28px 0 44px;
+      }
+
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--green-dark);
+        font-size: 0.91rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 12px;
+        background: #dcefdc;
+        font-size: 1.2rem;
+      }
+
+      .location-pill {
+        padding: 8px 12px;
+        border: 1px solid #d5e7d5;
+        border-radius: 999px;
+        background: rgb(255 255 255 / 70%);
+        color: #45685a;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .hero {
+        overflow: hidden;
+        border: 1px solid #e2ebdf;
+        border-radius: 28px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .intro {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 38px 24px 25px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--green);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.3rem, 6vw, 4.2rem);
+        font-weight: 700;
+        letter-spacing: -0.055em;
+        line-height: 1.03;
+      }
+
+      h1 span { color: var(--green); }
+
+      .intro-copy {
+        max-width: 550px;
+        margin: 15px auto 0;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .landscape-wrap {
+        position: relative;
+        overflow: hidden;
+        height: clamp(190px, 30vw, 310px);
+        background: linear-gradient(180deg, #dff2f2, #c9e8e5);
+      }
+
+      .landscape {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .tree { pointer-events: none; }
+
+      .tree-new {
+        transform-box: fill-box;
+        transform-origin: center bottom;
+        animation: tree-grow 850ms cubic-bezier(.18, .85, .35, 1.15) both;
+      }
+
+      @keyframes tree-grow {
+        from { transform: scale(0); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .landscape-caption {
+        position: absolute;
+        right: 18px;
+        bottom: 14px;
+        padding: 7px 11px;
+        border: 1px solid rgb(255 255 255 / 72%);
+        border-radius: 999px;
+        background: rgb(255 255 255 / 72%);
+        color: #315c4a;
+        font-size: 0.74rem;
+        font-weight: 700;
+        backdrop-filter: blur(8px);
+      }
+
+      .garden-content {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 28px 24px 32px;
+      }
+
+      .counter-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        margin-bottom: 22px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .counter {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--green-dark);
+        font-weight: 800;
+      }
+
+      .counter-number {
+        display: inline-grid;
+        min-width: 30px;
+        height: 30px;
+        padding-inline: 7px;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--mint);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .section-label {
+        margin: 0 0 11px;
+        color: #75867e;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 22px;
+      }
+
+      .filter-button {
+        min-height: 38px;
+        padding: 8px 14px;
+        border: 1px solid #dce7dc;
+        border-radius: 999px;
+        background: #fff;
+        color: #53695f;
+        cursor: pointer;
+        font-size: 0.82rem;
+        font-weight: 700;
+        transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+      }
+
+      .filter-button:hover { transform: translateY(-1px); border-color: #a7c9ae; }
+
+      .filter-button[aria-pressed="true"] {
+        border-color: var(--green);
+        background: var(--green);
+        color: white;
+      }
+
+      button:focus-visible {
+        outline: 3px solid #85c7d1;
+        outline-offset: 3px;
+      }
+
+      .fact-card {
+        min-height: 154px;
+        padding: 23px 24px 21px;
+        border: 1px solid #e4ece1;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #f7fbf4, #f1f8f3);
+        text-align: center;
+      }
+
+      .fact-category {
+        display: inline-block;
+        margin-bottom: 10px;
+        color: var(--green);
+        font-size: 0.71rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .fact-text {
+        margin: 0;
+        color: #25463a;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.08rem, 2.8vw, 1.35rem);
+        line-height: 1.55;
+      }
+
+      .fact-text.is-empty { color: #708077; font-family: inherit; font-size: 1rem; }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 11px;
+        margin-top: 17px;
+      }
+
+      .action-button {
+        display: inline-flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 12px 19px;
+        border: 1px solid transparent;
+        border-radius: 14px;
+        cursor: pointer;
+        font-size: 0.91rem;
+        font-weight: 800;
+        transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+      }
+
+      .action-button:hover { transform: translateY(-2px); }
+
+      .action-button:active { transform: translateY(0); }
+
+      .primary-button {
+        min-width: 210px;
+        background: var(--green);
+        box-shadow: 0 7px 16px rgb(36 115 77 / 19%);
+        color: #fff;
+      }
+
+      .primary-button:hover { background: var(--green-dark); }
+
+      .copy-button {
+        border-color: #d9e6da;
+        background: white;
+        color: #365848;
+      }
+
+      .copy-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.52;
+      }
+
+      .copy-button:disabled:hover { transform: none; }
+
+      .garden-note {
+        margin: 16px 0 0;
+        color: #76857d;
+        font-size: 0.76rem;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      .sr-only {
+        position: absolute;
+        overflow: hidden;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        clip-path: inset(50%);
+      }
+
+      @media (max-width: 560px) {
+        .page-shell { width: min(100% - 24px, 520px); padding-top: 16px; }
+        .topline { margin-bottom: 14px; }
+        .brand { gap: 7px; font-size: 0.77rem; }
+        .brand-mark { width: 32px; height: 32px; }
+        .location-pill { padding: 7px 9px; font-size: 0.7rem; }
+        .hero { border-radius: 22px; }
+        .intro { padding: 30px 18px 20px; }
+        .intro-copy { margin-top: 12px; font-size: 0.92rem; }
+        .landscape-wrap { height: 205px; }
+        .landscape-caption { right: 10px; bottom: 9px; font-size: 0.66rem; }
+        .garden-content { padding: 23px 16px 25px; }
+        .counter-row { margin-bottom: 19px; font-size: 0.81rem; }
+        .filters { gap: 7px; }
+        .filter-button { min-height: 36px; padding: 7px 11px; font-size: 0.76rem; }
+        .fact-card { min-height: 150px; padding: 19px 16px; }
+        .actions { display: grid; grid-template-columns: 1fr; }
+        .action-button { width: 100%; }
+        .primary-button { min-width: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topline">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">🌱</span> ECOSQUAD</div>
+        <div class="location-pill">📍 Rwanda, our home</div>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div class="intro">
+          <p class="eyebrow">Small facts. A greener future.</p>
+          <h1 id="page-title">Eco Facts <span>Garden</span></h1>
+          <p class="intro-copy">Grow your knowledge, one little tree at a time. Explore planet-friendly facts inspired by Rwanda and watch your hillside bloom.</p>
+        </div>
+
+        <div class="landscape-wrap">
+          <svg class="landscape" id="landscape" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMax slice" role="img" aria-labelledby="scene-title scene-description">
+            <title id="scene-title">A green and blue Rwandan hillside</title>
+            <desc id="scene-description">A sunny sky above layered green hills, a winding river, and trees planted as you discover eco facts.</desc>
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#d9f1f1"/>
+                <stop offset="1" stop-color="#b9e1e4"/>
+              </linearGradient>
+              <linearGradient id="far-hill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#95cba7"/>
+                <stop offset="1" stop-color="#71b58a"/>
+              </linearGradient>
+            </defs>
+            <rect width="1000" height="360" fill="url(#sky)"/>
+            <circle cx="805" cy="78" r="35" fill="#ffe69a"/>
+            <g fill="#fff" opacity=".68">
+              <ellipse cx="177" cy="84" rx="57" ry="13"/>
+              <ellipse cx="152" cy="77" rx="27" ry="18"/>
+              <ellipse cx="190" cy="73" rx="31" ry="22"/>
+              <ellipse cx="475" cy="118" rx="43" ry="10"/>
+              <ellipse cx="458" cy="112" rx="21" ry="14"/>
+              <ellipse cx="485" cy="108" rx="24" ry="17"/>
+            </g>
+            <path d="M0 224 Q123 157 235 194 T468 187 Q590 139 701 185 T1000 159 V360 H0Z" fill="url(#far-hill)"/>
+            <path d="M0 253 Q139 203 273 234 T511 220 Q649 181 773 230 T1000 204 V360 H0Z" fill="#5fa779"/>
+            <path d="M0 294 Q158 228 312 278 T575 265 Q732 212 856 260 T1000 247 V360 H0Z" fill="#3f9260"/>
+            <path d="M420 360 Q477 319 522 288 Q561 260 616 244 Q576 280 549 310 Q523 342 500 360Z" fill="#7ccbd0"/>
+            <path d="M0 329 Q175 275 332 309 T622 299 Q783 252 1000 289 V360 H0Z" fill="#28774e"/>
+            <g class="tree" opacity=".83" transform="translate(112 266) scale(.78)">
+              <path d="M-5 0h10v29H-5z" fill="#765138"/><circle cy="-9" r="23" fill="#28734a"/><circle cx="-14" cy="-1" r="15" fill="#348653"/><circle cx="14" cy="-1" r="15" fill="#3d925b"/>
+            </g>
+            <g class="tree" opacity=".85" transform="translate(289 274) scale(.63)">
+              <path d="M-5 0h10v29H-5z" fill="#765138"/><circle cy="-9" r="23" fill="#28734a"/><circle cx="-14" cy="-1" r="15" fill="#348653"/><circle cx="14" cy="-1" r="15" fill="#3d925b"/>
+            </g>
+            <g class="tree" opacity=".8" transform="translate(708 251) scale(.72)">
+              <path d="M-5 0h10v29H-5z" fill="#765138"/><circle cy="-9" r="23" fill="#28734a"/><circle cx="-14" cy="-1" r="15" fill="#348653"/><circle cx="14" cy="-1" r="15" fill="#3d925b"/>
+            </g>
+            <g class="tree" opacity=".86" transform="translate(906 272) scale(.9)">
+              <path d="M-5 0h10v29H-5z" fill="#765138"/><circle cy="-9" r="23" fill="#28734a"/><circle cx="-14" cy="-1" r="15" fill="#348653"/><circle cx="14" cy="-1" r="15" fill="#3d925b"/>
+            </g>
+            <g id="planted-trees" aria-hidden="true"></g>
+          </svg>
+          <div class="landscape-caption">A little greener with every fact 🌳</div>
+        </div>
+
+        <div class="garden-content">
+          <div class="counter-row">
+            <span class="counter"><span class="counter-number" id="tree-count">0</span> trees planted</span>
+            <span aria-hidden="true">·</span>
+            <span>your eco garden is growing</span>
+          </div>
+
+          <p class="section-label">Pick a garden path</p>
+          <div class="filters" role="group" aria-label="Filter eco facts by category">
+            <button class="filter-button" type="button" data-category="All" aria-pressed="true">All facts</button>
+            <button class="filter-button" type="button" data-category="Rwanda" aria-pressed="false">Rwanda</button>
+            <button class="filter-button" type="button" data-category="Climate" aria-pressed="false">Climate</button>
+            <button class="filter-button" type="button" data-category="Waste" aria-pressed="false">Waste</button>
+            <button class="filter-button" type="button" data-category="Water & Energy" aria-pressed="false">Water &amp; Energy</button>
+          </div>
+
+          <article class="fact-card" aria-live="polite" aria-atomic="true">
+            <span class="fact-category" id="fact-category" hidden></span>
+            <p class="fact-text is-empty" id="fact-text">Choose a path, then discover your first eco fact.</p>
+          </article>
+
+          <div class="actions">
+            <button class="action-button primary-button" id="fact-button" type="button">
+              <span aria-hidden="true">🌿</span> Show me an eco fact <span aria-hidden="true">→</span>
+            </button>
+            <button class="action-button copy-button" id="copy-button" type="button" disabled>
+              <span aria-hidden="true">▢</span> Copy fact
+            </button>
+          </div>
+          <p class="garden-note" id="status-message">Every new fact adds a tree to your hillside.</p>
+          <span class="sr-only" id="tree-announcement" aria-live="polite"></span>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const facts = [
+        { category: "Rwanda", text: "Rwanda is known as the Land of a Thousand Hills—and its forests, wetlands, and parks shelter remarkable wildlife." },
+        { category: "Rwanda", text: "Akagera National Park's wetlands and lakes provide important habitat for hippos, crocodiles, and many bird species." },
+        { category: "Rwanda", text: "Nyungwe is one of Africa's oldest montane rainforests and is home to chimpanzees and hundreds of bird species." },
+        { category: "Rwanda", text: "Mountain gorillas live in Rwanda's Volcanoes National Park. Protecting their forest habitat also helps safeguard the watershed." },
+        { category: "Rwanda", text: "Rwanda's Umuganda community service day takes place on the last Saturday of most months, bringing people together for community work." },
+        { category: "Climate", text: "Trees draw carbon dioxide from the air as they grow, while also providing shade and habitat for wildlife." },
+        { category: "Climate", text: "Walking, cycling, or sharing a ride for a short trip can help reduce fuel use and air pollution." },
+        { category: "Climate", text: "Healthy forests and wetlands store carbon and help nature adapt to a changing climate." },
+        { category: "Climate", text: "Eating seasonal food grown closer to home can reduce the distance some of your meals travel." },
+        { category: "Waste", text: "A reusable bottle can replace many single-use plastic bottles over its lifetime." },
+        { category: "Waste", text: "Sorting recyclables and keeping them clean and dry can make materials easier to recycle." },
+        { category: "Waste", text: "Food scraps can become compost, returning nutrients to soil instead of going to landfill." },
+        { category: "Waste", text: "Rwanda introduced a nationwide ban on plastic bags in 2008; reducing disposable packaging helps keep litter out of nature." },
+        { category: "Water & Energy", text: "Turning off a tap while brushing your teeth saves treated drinking water." },
+        { category: "Water & Energy", text: "Switching off lights when you leave a room is a simple way to avoid wasting electricity." },
+        { category: "Water & Energy", text: "Fixing a dripping tap helps conserve water—small drips can add up over time." },
+        { category: "Water & Energy", text: "Using daylight when you can is a bright way to cut down on lighting energy." }
+      ];
+
+      const categoryButtons = [...document.querySelectorAll(".filter-button")];
+      const factButton = document.querySelector("#fact-button");
+      const copyButton = document.querySelector("#copy-button");
+      const factCategory = document.querySelector("#fact-category");
+      const factText = document.querySelector("#fact-text");
+      const treeCount = document.querySelector("#tree-count");
+      const plantedTrees = document.querySelector("#planted-trees");
+      const landscape = document.querySelector("#landscape");
+      const statusMessage = document.querySelector("#status-message");
+      const treeAnnouncement = document.querySelector("#tree-announcement");
+      let selectedCategory = "All";
+      let currentFact = null;
+      let previousFact = null;
+      let treeTotal = 0;
+
+      categoryButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedCategory = button.dataset.category;
+          categoryButtons.forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          statusMessage.textContent = selectedCategory === "All"
+            ? "Every new fact adds a tree to your hillside."
+            : `Your next fact will be about ${selectedCategory}.`;
+        });
+      });
+
+      function plantTree() {
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        const group = document.createElementNS(svgNamespace, "g");
+        const inner = document.createElementNS(svgNamespace, "g");
+        const x = 40 + Math.random() * 920;
+        const y = 286 + Math.sin(x / 110) * 13 + Math.random() * 14;
+        const scale = 0.55 + Math.random() * 0.36;
+
+        group.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${scale.toFixed(2)})`);
+        group.setAttribute("class", "tree");
+        group.setAttribute("aria-hidden", "true");
+        inner.setAttribute("class", "tree-new");
+        inner.innerHTML = '<path d="M-5 0h10v29H-5z" fill="#765138"/><circle cy="-9" r="23" fill="#28734a"/><circle cx="-14" cy="-1" r="15" fill="#348653"/><circle cx="14" cy="-1" r="15" fill="#3d925b"/>';
+        group.append(inner);
+        plantedTrees.append(group);
+
+        treeTotal += 1;
+        treeCount.textContent = String(treeTotal);
+        treeAnnouncement.textContent = `Tree ${treeTotal} planted.`;
+      }
+
+      factButton.addEventListener("click", () => {
+        const availableFacts = facts.filter((fact) =>
+          selectedCategory === "All" || fact.category === selectedCategory
+        );
+        const choices = availableFacts.length > 1
+          ? availableFacts.filter((fact) => fact !== previousFact)
+          : availableFacts;
+        currentFact = choices[Math.floor(Math.random() * choices.length)];
+        previousFact = currentFact;
+
+        factCategory.textContent = currentFact.category;
+        factCategory.hidden = false;
+        factText.textContent = currentFact.text;
+        factText.classList.remove("is-empty");
+        copyButton.disabled = false;
+        plantTree();
+        statusMessage.textContent = "A new fact and a new tree—your garden is growing!";
+      });
+
+      copyButton.addEventListener("click", async () => {
+        if (!currentFact) return;
+
+        try {
+          await navigator.clipboard.writeText(currentFact.text);
+          statusMessage.textContent = "Fact copied to your clipboard.";
+        } catch {
+          const temporaryInput = document.createElement("textarea");
+          temporaryInput.value = currentFact.text;
+          temporaryInput.setAttribute("readonly", "");
+          temporaryInput.style.position = "fixed";
+          temporaryInput.style.opacity = "0";
+          document.body.append(temporaryInput);
+          temporaryInput.select();
+          const copied = document.execCommand("copy");
+          temporaryInput.remove();
+          if (!copied) {
+            statusMessage.textContent = "Couldn't copy this fact. Please select and copy the text.";
+            return;
+          }
+          statusMessage.textContent = "Fact copied to your clipboard.";
+        }
+      });
+    </script>
+  </body>
+</html>
